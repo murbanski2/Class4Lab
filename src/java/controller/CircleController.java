@@ -5,7 +5,7 @@
 package controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet(name = "CircleController", urlPatterns = {"/CircleController"})
 public class CircleController extends HttpServlet {
-
+    private static final double PI = 3.14159265359;
     /**
      * Processes requests for both HTTP
      * <code>GET</code> and
@@ -32,21 +32,26 @@ public class CircleController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();
-        try {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet CircleController</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet CircleController at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        } finally {            
-            out.close();
-        }
+ 
+        String inRadius = request.getParameter("radius");
+        
+        double area;
+        double radius = Double.parseDouble(inRadius);
+        
+        area = PI * radius * radius;
+        String msg = "The area of a circle with radius "
+                + radius + " is "
+                + area;
+        
+        // Parameters are read only Request object properties, but attributes
+        // are read/write. We can use attributes to store data for use on
+        // another page.
+        request.setAttribute("msg", msg);
+        
+        // This object lets you forward both the request and response
+        // objects to a destination page
+        RequestDispatcher view = request.getRequestDispatcher("circle.jsp");
+        view.forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

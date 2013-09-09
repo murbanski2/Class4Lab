@@ -6,6 +6,7 @@ package controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -18,7 +19,6 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet(name = "TriangleController", urlPatterns = {"/TriangleController"})
 public class TriangleController extends HttpServlet {
-
     /**
      * Processes requests for both HTTP
      * <code>GET</code> and
@@ -32,21 +32,27 @@ public class TriangleController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();
-        try {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet TriangleController</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet TriangleController at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        } finally {            
-            out.close();
-        }
+
+        String inA = request.getParameter("a");
+        String inB = request.getParameter("b");
+        double area = 0;
+        double a = Double.parseDouble(inA);
+        double b = Double.parseDouble(inB);
+        
+        area = Math.sqrt((a * a) + (b * b));
+        String msg = "The hypotenuse of a right triangle with sides "
+                + a + " and " + b + " is "
+                + area;
+        
+        // Parameters are read only Request object properties, but attributes
+        // are read/write. We can use attributes to store data for use on
+        // another page.
+        request.setAttribute("msg", msg);
+        
+        // This object lets you forward both the request and response
+        // objects to a destination page
+        RequestDispatcher view = request.getRequestDispatcher("triangle.jsp");
+        view.forward(request, response);        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
