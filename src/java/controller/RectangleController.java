@@ -20,7 +20,6 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "RectangleController", urlPatterns = {"/RectangleController"})
 public class RectangleController extends HttpServlet {
 
-    private static final String RESULT_PAGE = "rectangle.jsp";
     /**
      * Processes requests for both HTTP
      * <code>GET</code> and
@@ -42,16 +41,19 @@ public class RectangleController extends HttpServlet {
         double width = Double.parseDouble(inWidth);
         
         area = length * width;
+        String msg = "The area of a rectangle with length "
+                + length + " and width " + width + " is "
+                + area;
         
         // Parameters are read only Request object properties, but attributes
         // are read/write. We can use attributes to store data for use on
         // another page.
-        request.setAttribute("area", area);
+        request.setAttribute("msg", msg);
         
         // This object lets you forward both the request and response
         // objects to a destination page
-        RequestDispatcher view =
-                request.getRequestDispatcher(RESULT_PAGE);
+        RequestDispatcher view = request.getRequestDispatcher("rectangle.jsp");
+                //request.getRequestDispatcher("rectangle.jsp");
         view.forward(request, response);
     }
 
