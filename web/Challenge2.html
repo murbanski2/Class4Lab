@@ -1,14 +1,84 @@
 <!--
-To change this template, choose Tools | Templates
-and open the template in the editor.
+Challenge 2.  This one has validation
+Mark Urbanski
 -->
 <!DOCTYPE html>
 <html>
     <head>
-        <title></title>
+        <title>Geometric Calculators - Challenge 2</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <style type="text/css">
+
+            .myform {
+                position: relative;
+                top: 1em;
+                left: 1em;
+                width: 30em;
+                background-color: lightgrey;
+            }
+            .myinput {
+                width: 10em;
+                background-color: white;
+            }
+            .button1 {
+            }
+        </style>
+        <script type="text/javascript">
+            function isNumber(n) {
+                return !isNaN(parseFloat(n)) && isFinite(n);                
+            }
+            function isValid(n) {
+                if(isNumber(n)) {
+                    if (n > 0 && n < 1000) {
+                        return true;
+                    }
+                }
+                alert("Entries must be numbers greater than 0 and less than 1000");
+                return false;
+            }
+            function rectangleValidation(length, width) {
+                alert(length + isValid(length));
+                alert(width + isValid(width))
+                return (isValid(length) && isValid(width));
+            }
+            function circleValidation(radius) {
+                return (isValid(radius));
+            }
+            function triangleValidation(a,b) {
+                return (isValid(a) && isValid(b));
+            }
+</script>
     </head>
     <body>
-        <div>TODO write content</div>
+
+        <form class="myform" id="rectangle" name="rectangle" 
+              onsubmit="return rectangleValidation(length, width);" 
+              method="POST" action="RectangleController">
+            <h2>Area of a Rectangle</h2>
+            <p>Fill in the length and width</p>
+            Length of rectangle: <input class="myinput" type="text" name="length"><br/>
+            Width of rectangle: <input class="myinput" type="text" name="width"><br/>
+            <input type="submit" value="Submit" class="button1">
+        </form>
+
+        <form class="myform" id="circle" name="circle" 
+              onsubmit="return circleValidation(radius);"
+              method="POST" action="CircleController">
+            <h2>Area of a Circle</h2>
+            <p>Fill in the radius</p>
+            Radius of circle: <input class="myinput" type="text" name="radius"><br/>
+            <input type="submit" value="Submit" class="button1">
+        </form>
+        
+        <form class="myform" id="triangle" name="triangle" 
+              onsubmit="return triangleValidation(a, b);"
+              method="POST" action="TriangleController">
+            <h2>Length of Hypotenuse of a Right Triangle</h2>
+            <p>Fill in sides a and b</p>
+            Length of a: <input class="myinput" type="text" name="a"><br/>
+            Length of b: <input class="myinput" type="text" name="b"><br/>
+            <input type="submit" value="Submit" class="button1">
+        </form>
+
     </body>
 </html>
